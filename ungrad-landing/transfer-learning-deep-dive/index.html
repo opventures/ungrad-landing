@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="icon" href="/assets/images/logo.png" />
+
+    <title>Transfer Learning Deep Dive | UnGrad</title>
+
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Transfer Learning Deep Dive | UnGrad</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Transfer Learning Deep Dive" />
+<meta name="author" content="sal" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="PyTorch is quickly becoming one of the most popular deep learning frameworks around, as well as a must-have skill in your artificial intelligence tool kit. It’s gained admiration from industry leaders due to its deep integration with Python; its integration with top cloud platforms, including Amazon SageMaker and Google Cloud Platform; and its computational graphs that can be defined on the fly. In this course, join our instructor as he dives into the basics of deep learning using PyTorch. Starting with a working image recognition model, he shows how the different components fit and work in tandem—from tensors, loss functions, and autograd all the way to troubleshooting a PyTorch network." />
+<meta property="og:description" content="PyTorch is quickly becoming one of the most popular deep learning frameworks around, as well as a must-have skill in your artificial intelligence tool kit. It’s gained admiration from industry leaders due to its deep integration with Python; its integration with top cloud platforms, including Amazon SageMaker and Google Cloud Platform; and its computational graphs that can be defined on the fly. In this course, join our instructor as he dives into the basics of deep learning using PyTorch. Starting with a working image recognition model, he shows how the different components fit and work in tandem—from tensors, loss functions, and autograd all the way to troubleshooting a PyTorch network." />
+<meta property="og:site_name" content="UnGrad" />
+<meta property="og:image" content="/assets/images/5.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-25T00:00:00+05:30" />
+<script type="application/ld+json">
+{"headline":"Transfer Learning Deep Dive","description":"PyTorch is quickly becoming one of the most popular deep learning frameworks around, as well as a must-have skill in your artificial intelligence tool kit. It’s gained admiration from industry leaders due to its deep integration with Python; its integration with top cloud platforms, including Amazon SageMaker and Google Cloud Platform; and its computational graphs that can be defined on the fly. In this course, join our instructor as he dives into the basics of deep learning using PyTorch. Starting with a working image recognition model, he shows how the different components fit and work in tandem—from tensors, loss functions, and autograd all the way to troubleshooting a PyTorch network.","datePublished":"2020-09-25T00:00:00+05:30","dateModified":"2020-09-25T00:00:00+05:30","url":"/transfer-learning-deep-dive/","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/transfer-learning-deep-dive/"},"image":"/assets/images/5.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"sal"},"author":{"@type":"Person","name":"sal"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+    <link href="/assets/css/prism.css" rel="stylesheet" />
+
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+
+    <script src="/assets/js/jquery.min.js"></script>
+
+    <script
+      data-ad-client="ca-pub-9812028621739794"
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
+  </head>
+
+   
+  <body>
+    <!-- defer loading of font and font awesome -->
+    <noscript id="deferred-styles">
+      <link
+        href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous"
+      />
+    </noscript>
+
+    <!-- Begin Sidebar Navigation
+================================================== -->
+
+    <div class="sidebar"></div>
+    <div class="nav-icon">
+      <div class="hamburger-bar"></div>
+    </div>
+    <div id="blackover-nav" class="blackover"></div>
+    <nav id="menu">
+      <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </nav>
+
+    <script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+    <!-- End Sidebar Navigation
+================================================== -->
+
+    <div class="site-content ">
+      <div class="container">
+        <!-- Site Logo/Name
+    ================================================== -->
+        
+
+        <!-- Site Tag
+    ================================================== -->
+        
+
+        <!-- Content
+    ================================================== -->
+        <div class="main-content"><div class="entry-header">
+  <!-- Post Title -->
+  <h2 class="posttitle">Transfer Learning Deep Dive</h1>
+  <!-- Author & Date  Box -->
+  <!-- Rating -->
+  
+  <div class="rating mt-4 mb-4 d-flex align-items-center">
+    <div class="rating-holder">
+  <div class="row">
+    <div class="c-rating c-rating--regular" data-rating-value="3.5">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>5</button>
+    </div>
+    &nbsp;
+    <div>(158)</div>
+    &nbsp; | &nbsp;
+    <div class="">Updated on: <strong> 5 Jan 2020</strong></div>
+    &nbsp; | &nbsp;
+    <span
+      >Rs.
+      <span class="" style="text-decoration: line-through"
+        >6599</span
+      >
+    </span>
+  </div>
+</div>
+
+  </div>
+   
+  <div class="rating-holder">
+    <div class="row"></div>
+  </div>
+  
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image " src="/assets/images/5.jpg" alt="Transfer Learning Deep Dive">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>PyTorch is quickly becoming one of the most popular deep learning frameworks around, as well as a must-have skill in your artificial intelligence tool kit. It’s gained admiration from industry leaders due to its deep integration with Python; its integration with top cloud platforms, including Amazon SageMaker and Google Cloud Platform; and its computational graphs that can be defined on the fly. In this course, join our instructor as he dives into the basics of deep learning using PyTorch. Starting with a working image recognition model, he shows how the different components fit and work in tandem—from tensors, loss functions, and autograd all the way to troubleshooting a PyTorch network.</p>
+
+</div>
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+
+<div class="mt-4 mb-4 d-flex align-items-center">
+  <button class="btn btn-primary btn-lg comments" onclick="onEnroll()">Enroll Now</button>
+</div>
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Artificial-Intelligence">Artificial Intelligence</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Machine-Learning">Machine Learning</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#PyTorch">PyTorch</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Transfer-Learning">Transfer Learning</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#data-science">data science</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#python">python</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/text-analytics/">
+          <img class="img-thumb" src="/assets/images/4.jpg"
+        alt="Text analytics and predictions using Python">  
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title">
+        <a class="text-dark" href="/text-analytics/"
+          >Text analytics and predictions using Python</a
+        >
+        
+        <div class="mb-2 mt-2 font-weight-normal">
+          <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="4">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+        </div>
+        
+      </h2>
+      <h4 class="card-text">
+        Text is a rich source of insights for businesses. Websites, social media, emails, and chats all contain valuable customer data. But to reap the rewards, you need to be able...
+      </h4>
+    </div>
+    <div class="card-footer bg-white">
+      <div class="wrapfooter">
+        
+        <span class="author-meta">
+          <span class="post-name"
+            ><a target="_blank" href="https://www.wowthemes.net/donate/"
+              >Rs.
+              <span style="text-decoration: line-through"
+                >6599</span
+              ></a
+            >
+              <span class="badge-primary"
+                > Now. Rs. 0 </span
+            </span
+          >
+          
+          <span class="post-date">03 Feb 2020</span>
+        </span>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end post -->
+
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/recommendation-system/">
+          <img class="img-thumb" src="/assets/images/3.jpg"
+        alt="Building a recommendation system with Python ML">  
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title">
+        <a class="text-dark" href="/recommendation-system/"
+          >Building a recommendation system with Python ML</a
+        >
+        
+        <div class="mb-2 mt-2 font-weight-normal">
+          <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="4">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+        </div>
+        
+      </h2>
+      <h4 class="card-text">
+        Discover how to use Python—and some essential machine learning concepts—to build programs that can make recommendations. In this hands-on course, our instructor covers the different types of recommendation systems out...
+      </h4>
+    </div>
+    <div class="card-footer bg-white">
+      <div class="wrapfooter">
+        
+        <span class="author-meta">
+          <span class="post-name"
+            ><a target="_blank" href="https://www.wowthemes.net/donate/"
+              >Rs.
+              <span style="text-decoration: line-through"
+                >4599</span
+              ></a
+            >
+              <span class="badge-primary"
+                > Now. Rs. 0 </span
+            </span
+          >
+          
+          <span class="post-date">03 Feb 2020</span>
+        </span>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end post -->
+
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+  <div class="card h-100">
+    <div class="maxthumb">
+      <a href="/python-data-science-pt2/">
+          <img class="img-thumb" src="/assets/images/1.jpg"
+        alt="Python for data-science (Part 2)">  
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title">
+        <a class="text-dark" href="/python-data-science-pt2/"
+          >Python for data-science (Part 2)</a
+        >
+        
+        <div class="mb-2 mt-2 font-weight-normal">
+          <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="4.5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+        </div>
+        
+      </h2>
+      <h4 class="card-text">
+        In this course, the instructor takes you step by step through a practical data science project: building machine learning models that can generate predictions and recommendations and automate routine tasks....
+      </h4>
+    </div>
+    <div class="card-footer bg-white">
+      <div class="wrapfooter">
+        
+        <span class="author-meta">
+          <span class="post-name"
+            ><a target="_blank" href="https://www.wowthemes.net/donate/"
+              >Rs.
+              <span style="text-decoration: line-through"
+                >5599</span
+              ></a
+            >
+              <span class="badge-primary"
+                > Now. Rs. 0 </span
+            </span
+          >
+          
+          <span class="post-date">30 Apr 2020</span>
+        </span>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end post -->
+
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+<script type="application/ld+json">
+  {
+  "@context": "http://schema.org/",
+  "@type": "Review",
+  "itemReviewed": {
+  "@type": "Thing",
+  "name": "Transfer Learning Deep Dive"
+  },
+  "author": {
+  "@type": "Person",
+  "name": "Ashwin"
+  },
+  "datePublished": "2020-09-25",
+  "reviewRating": {
+  "@type": "Rating",
+  "ratingValue": "3.5",
+  "bestRating": "5"
+  }
+  }
+</script>
+<script>
+    let onEnroll = () => {
+        // alert("https://google.com")
+        alert("Courses will be available soon. Thank you for your interest")
+    }
+</script>
+
+</div>
+
+        
+        <!-- Newsletter
+    ================================================== -->
+        <div class="newsletter text-center">
+          <span class="h4"
+            ><img
+              src="/assets/images/logo.png"
+              class="newsletter-logo"
+              alt="UnGrad"
+            />
+            &nbsp; Never miss a <b>course</b> from us, subscribe to our
+            newsletter</span
+          >
+          <form
+            action="https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b"
+            method="post"
+            name="mc-embedded-subscribe-form"
+            class="wj-contact-form validate"
+            target="_blank"
+            novalidate
+          >
+            <div class="mc-field-group d-inline-flex">
+              <input
+                type="email"
+                placeholder="Your e-mail"
+                name="EMAIL"
+                class="required email"
+                id="mce-EMAIL"
+                autocomplete="on"
+                required
+              />
+              <input
+                type="submit"
+                value="Subscribe"
+                name="subscribe"
+                class="heart"
+              />
+            </div>
+          </form>
+        </div>
+        
+      </div>
+
+      <!-- Begin Footer
+================================================== -->
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+              Copyright © 2020 UnGrad
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- End Footer
+================================================== -->
+    </div>
+    <!-- /.site-content -->
+
+    <!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+    <script src="/assets/js/prism.js"></script>
+
+    <script src="/assets/js/theme.js"></script>
+
+     
+    <script
+      id="dsq-count-scr"
+      src="//demowebsite.disqus.com/count.js"
+    ></script>
+    
+  </body>
+</html>
